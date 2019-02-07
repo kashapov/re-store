@@ -9,6 +9,12 @@
 }
 
 .shopping-cart-table button {
-  margin-left: 5px;
-  margin-top: 5px;
+
+}
+
+.shopping-cart-table .item-count {
+  margin: 0 10px;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
 }
