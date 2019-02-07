@@ -9,21 +9,7 @@ import Spinner from "../Spinner";
 import ErrorIndicator from "../ErrorIndicator/";
 class BookList extends Component {
   componentDidMount() {
-    // recieve data
-    const {
-      bookstoreService,
-      booksLoaded,
-      booksRequested,
-      booksError
-    } = this.props;
-    booksRequested();
-    bookstoreService
-      .getBooks()
-      .then(data => booksLoaded(data))
-      .catch(err => booksError(err));
-
-    // dispatch action to store
-    //this.props.booksLoaded(data);
+    this.props.fetchBooks();
   }
 
   render() {
@@ -55,10 +41,17 @@ const mapStateToProps = ({ books, loading, error }) => {
   return { books, loading, error };
 };
 
-const mapDispatchToProps = {
-  booksLoaded,
-  booksRequested,
-  booksError
+const mapDispatchToProps = (dispatch, ownProps) => {
+  const { bookstoreService } = ownProps;
+  return {
+    fetchBooks: () => {
+      dispatch(booksRequested());
+      bookstoreService
+        .getBooks()
+        .then(data => dispatch(booksLoaded(data)))
+        .catch(err => booksError(err));
+    }
+  };
 };
 
 export default compose(
