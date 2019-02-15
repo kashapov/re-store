@@ -66,12 +66,12 @@ const ShoppingCartTable = ({
         <tbody>{items.map(renderRow)}</tbody>
       </table>
 
-      <div className="total">Total: $201</div>
+      <div className="total">Total: ${total}</div>
     </div>
   );
 };
 
-const mapStateToProps = ({ cartItems, orderTotal }) => {
+const mapStateToProps = ({ shoppingCart: { cartItems, orderTotal } }) => {
   return {
     items: cartItems,
     total: orderTotal
