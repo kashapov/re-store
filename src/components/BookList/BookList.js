@@ -1,12 +1,15 @@
 import React, { Component } from "react";
-import "./BookList.css";
-import BookListItem from "../BookListItem";
+import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { withBookstoreService } from "../hoc";
-import { fetchBooks, bookAddedToCart } from "../../actions";
-import { compose } from "../../utils";
-import Spinner from "../Spinner";
+
+import BookListItem from "../BookListItem";
 import ErrorIndicator from "../ErrorIndicator/";
+import Spinner from "../Spinner";
+import { compose } from "../../utils";
+import { fetchBooks, bookAddedToCart } from "../../actions";
+import { withBookstoreService } from "../hoc";
+
+import "./BookList.css";
 
 const BookList = ({ books, onAddedToCart }) => {
   return (
@@ -49,10 +52,13 @@ const mapStateToProps = ({ bookList: { books, loading, error } }) => {
 };
 
 const mapDispatchToProps = (dispatch, { bookstoreService }) => {
-  return {
-    fetchBooks: fetchBooks(bookstoreService, dispatch),
-    onAddedToCart: id => dispatch(bookAddedToCart(id))
-  };
+  return bindActionCreators(
+    {
+      fetchBooks: fetchBooks(bookstoreService),
+      onAddedToCart: bookAddedToCart
+    },
+    dispatch
+  );
 };
 
 export default compose(
